@@ -24,6 +24,7 @@ export default function OrderForm() {
 
                     <input
                         value={store.amount}
+                        type="number"
                         onChange={(e)=>store.setAmount(e.target.value)}
                         style={{padding: '8px 10px', borderRadius: 8, border: '1px solid #dcdcdc' }}
                     />
