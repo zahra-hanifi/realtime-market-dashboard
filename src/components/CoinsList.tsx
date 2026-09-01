@@ -40,7 +40,11 @@ export default function CoinsList() {
 
     return (
         <div className="w-full md:w-2/3 sm:flex sm:flex-col sm:min-h-0">
-            {fetchState === 'pending' && <div className="m-auto font-bold text-xl">Loading...</div>}
+            {fetchState === 'pending' && (
+                <div className="flex justify-center items-center h-full font-bold text-2xl text-text-2">
+                    Loading...
+                </div>
+            )}
             {fetchState === 'error' && (
                 <div className="flex flex-col gap-2 justify-center items-center h-full font-bold text-2xl text-text-2">
                     <p>Something went wrong</p>
