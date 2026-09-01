@@ -52,29 +52,32 @@ _TODO_
 ### Data fetching and cleanup
 
 <!-- FILL IN AFTER STAGE 2 -->
+
 Requests are aborted through `AbortController` in the effect's cleanup function. This covers two things at once: no state updates against an unmounted component, and no chance of a slow earlier response overwriting a newer one when the request key changes.
 
 ### Debounced search
 
 <!-- FILL IN AFTER STAGE 3 -->
+
 Search input is controlled, but filtering runs off a debounced value so typing stays smooth. The debounce lives in a `useDebounce` hook rather than inline in the component — the timer is cleared on cleanup, so rapid typing doesn't leave a trail of pending timeouts.
 
 ### State boundaries
 
 <!-- FILL IN AFTER STAGE 4 -->
+
 Live prices live in a Zustand store, read through selectors so a row only re-renders when its own price changes. Selection state is separate from price state, so a price tick never touches the detail panel.
 
 ---
 
 ## Tech stack
 
-| | |
-|---|---|
-| Framework | React 19, TypeScript |
-| Build | Vite |
-| State | Zustand |
+|             |                      |
+| ----------- | -------------------- |
+| Framework   | React 19, TypeScript |
+| Build       | Vite                 |
+| State       | Zustand              |
 | Data source | CoinGecko public API |
-| Tooling | ESLint |
+| Tooling     | ESLint               |
 
 ---
 

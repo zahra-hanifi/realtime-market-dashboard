@@ -1,7 +1,7 @@
-import { useOrderStore } from "../store/useOrderStore.ts";
-import { useMediaQuery } from "../hooks/useMediaQuery.ts";
-import Modal from "./Modal.tsx";
-import OrderForm from "./OrderForm.tsx";
+import { useOrderStore } from '../store/useOrderStore.ts'
+import { useMediaQuery } from '../hooks/useMediaQuery.ts'
+import Modal from './Modal.tsx'
+import OrderForm from './OrderForm.tsx'
 
 export default function OrderFormDialog() {
     const isOrderOpen = useOrderStore((s) => s.isOrderOpen)

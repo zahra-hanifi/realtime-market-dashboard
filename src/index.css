@@ -1,18 +1,18 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
     --color-bg-0: oklch(0.155 0.006 250);
     --color-bg-1: oklch(0.192 0.007 250);
     --color-bg-2: oklch(0.228 0.008 250);
     --color-bg-hover: oklch(0.248 0.009 250);
-    --color-border: oklch(0.30 0.010 250);
+    --color-border: oklch(0.3 0.01 250);
     --color-border-strong: oklch(0.38 0.012 250);
     --color-text-1: oklch(0.945 0.004 250);
     --color-text-2: oklch(0.745 0.008 250);
-    --color-text-3: oklch(0.585 0.010 250);
+    --color-text-3: oklch(0.585 0.01 250);
     --color-accent: oklch(0.72 0.085 205);
-    --color-pos: oklch(0.700 0.095 155);
-    --color-neg: oklch(0.640 0.110 25);
+    --color-pos: oklch(0.7 0.095 155);
+    --color-neg: oklch(0.64 0.11 25);
 
     --font-mono: 'IBM Plex Mono', monospace;
 }
@@ -28,7 +28,10 @@
     .modal,
     .modal::backdrop {
         opacity: 0;
-        transition: opacity 0.2s ease, display 0.2s allow-discrete, overlay 0.2s allow-discrete;
+        transition:
+            opacity 0.2s ease,
+            display 0.2s allow-discrete,
+            overlay 0.2s allow-discrete;
     }
 
     .modal[open],

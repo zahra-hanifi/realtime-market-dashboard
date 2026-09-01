@@ -1,4 +1,10 @@
-export default function SearchInput({search, onSearchChange}:{search:string, onSearchChange: (value: string) => void}) {
+export default function SearchInput({
+    search,
+    onSearchChange,
+}: {
+    search: string
+    onSearchChange: (value: string) => void
+}) {
     return (
         <div className="px-4 py-3 sticky top-12.5 sm:top-2 bg-bg-0 border-b border-border z-20">
             <input

@@ -1,15 +1,15 @@
-import { useOrderStore } from "../store/useOrderStore.ts";
-import Button from "./Button.tsx";
-import { formatPrice } from "../utils/format.ts";
+import { useOrderStore } from '../store/useOrderStore.ts'
+import Button from './Button.tsx'
+import { formatPrice } from '../utils/format.ts'
 
-const sidebarStyle = "md:w-1/3 p-4 bg-bg-2 hidden md:block md:overflow-y-auto text-text-2"
+const sidebarStyle = 'md:w-1/3 p-4 bg-bg-2 hidden md:block md:overflow-y-auto text-text-2'
 
-export default function OrderForm({className = sidebarStyle}: {className?: string}) {
+export default function OrderForm({ className = sidebarStyle }: { className?: string }) {
     const store = useOrderStore()
 
-    return(
+    return (
         <div className={className}>
-            {store.selectedCoin ?
+            {store.selectedCoin ? (
                 <div className="flex flex-col gap-y-4">
                     <div className="flex items-center gap-x-4">
                         <span className="text-text-1 font-semibold text-base sm:text-xl">
@@ -26,18 +26,23 @@ export default function OrderForm({className = sidebarStyle}: {className?: strin
                             {formatPrice(store.selectedCoin.current_price)}
                         </span>
 
-                            {store.selectedCoin.price_change_percentage_24h !== null ?
-                                <span
-                                    className=
-                                        {
-                                            +store.selectedCoin.price_change_percentage_24h.toFixed(2) > 0 ? 'text-pos'
-                                                : +store.selectedCoin.price_change_percentage_24h.toFixed(2) < 0 ? 'text-neg'
-                                                    : 'text-text-3'
-                                        }
-                                >
-                            {store.selectedCoin.price_change_percentage_24h.toFixed(2)}%
-                        </span> : <span className="text-text-3">—</span>
-                            }
+                        {store.selectedCoin.price_change_percentage_24h !== null ? (
+                            <span
+                                className={
+                                    +store.selectedCoin.price_change_percentage_24h.toFixed(2) > 0
+                                        ? 'text-pos'
+                                        : +store.selectedCoin.price_change_percentage_24h.toFixed(
+                                                2
+                                            ) < 0
+                                          ? 'text-neg'
+                                          : 'text-text-3'
+                                }
+                            >
+                                {store.selectedCoin.price_change_percentage_24h.toFixed(2)}%
+                            </span>
+                        ) : (
+                            <span className="text-text-3">—</span>
+                        )}
                     </div>
 
                     <div className="mt-3 flex flex-col gap-y-2">
@@ -102,18 +107,17 @@ export default function OrderForm({className = sidebarStyle}: {className?: strin
                         </div>
                     </div>
                 </div>
-                : <div className="m-auto flex justify-center items-center h-full text-text-2 flex-col gap-y-3">
+            ) : (
+                <div className="m-auto flex justify-center items-center h-full text-text-2 flex-col gap-y-3">
                     <div className="w-9 h-9 border border-text-2 rounded-lg"></div>
 
-                    <span className="text-base font-medium text-text-1">
-                        No Market Selected
-                    </span>
+                    <span className="text-base font-medium text-text-1">No Market Selected</span>
 
                     <p className="text-sm text-text-2 text-center mt-1">
-                        Choose a market from the list to place an
-                        order.
+                        Choose a market from the list to place an order.
                     </p>
-                </div>}
+                </div>
+            )}
         </div>
     )
 }
