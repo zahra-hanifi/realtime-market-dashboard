@@ -34,14 +34,14 @@ export default function CoinsList() {
     }, [coins, debouncedSearch])
 
     return <div className="w-full md:w-2/3 sm:flex sm:flex-col sm:min-h-0">
-        {fetchState === 'pending' && <div style={{margin:'auto', fontWeight: 'bold', fontSize: 20}}>Loading...</div>}
+        {fetchState === 'pending' && <div className="m-auto font-bold text-xl">Loading...</div>}
         {
             fetchState === 'error' &&
-            <div style={{margin:'auto',fontWeight: 'bold', fontSize: 20}}>
+            <div className="flex flex-col gap-2 justify-center items-center h-full font-bold text-2xl text-text-2">
                 <p>Something went wrong</p>
                 <Button
                     variant="danger"
-                    style={{marginTop: 8}}
+                    className="mt-2"
                     onClick={() => {setFetchState('pending');setReloadKey((key) => key + 1)}}
                 >
                     Retry
@@ -49,21 +49,21 @@ export default function CoinsList() {
             </div>
         }
         {
-            fetchState === 'success' && !coins.length &&
+            fetchState === 'success' && coins.length === 0 &&
             <div className="flex justify-center items-center h-full font-bold text-2xl text-text-2">
                 Nothing found :(
             </div>
         }
         {
-            fetchState === 'success' && coins.length &&
+            fetchState === 'success' && coins.length > 0 &&
             <>
                 <SearchInput search={search} onSearchChange={setSearch} />
 
-                {filteredCoins.length ?
+                {filteredCoins.length > 0 ?
                     <div className="sm:flex-1 sm:min-h-0 sm:overflow-y-auto">
                         <CoinsTable coins={filteredCoins} />
                     </div>
-                    : <div className="flex justify-center items-center h-full font-bold text-2xl text-text-2">
+                    : <div className="flex justify-center mt-8 h-full font-bold text-2xl text-text-2">
                         No Result :(
                     </div>
                 }

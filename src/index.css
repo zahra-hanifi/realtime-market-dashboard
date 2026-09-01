@@ -14,13 +14,13 @@
     --color-pos: oklch(0.700 0.095 155);
     --color-neg: oklch(0.640 0.110 25);
 
-    --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
 }
 
 @layer base {
     html {
         scrollbar-color: var(--color-border-strong) var(--color-bg-0);
+        font-family: var(--font-mono);
     }
 }
 

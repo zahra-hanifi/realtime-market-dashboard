@@ -1,46 +1,45 @@
 import * as React from "react";
 
 type Variant = 'primary' | 'ghost' | 'danger'
-
 type Size = 'sm' | 'md'
 
 type ButtonProps = {
     variant?: Variant
     size?: Size
     loading?: boolean
-    disabled?: boolean
-    children?: React.ReactNode
-    onClick?: () => void
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
-const variantStyle:Record<Variant, React.CSSProperties> = {
-    primary: { background: '#6CB084', color: '#061009' },
-    ghost: { background: 'transparent', color: '#A9ADB1' },
-    danger: { background: '#C6706A', color: '#061009' },
+const variantClass: Record<Variant, string> = {
+    primary: 'bg-pos text-bg-0 hover:brightness-110',
+    ghost:   'bg-transparent text-text-2 hover:bg-bg-hover',
+    danger:  'bg-neg text-bg-0 hover:brightness-110',
 }
 
-const sizeStyle:Record<Size, React.CSSProperties> = {
-    sm: { padding: '4px 10px', fontSize: 12 },
-    md: { padding: '8px 12px', fontSize: 14 },
+const sizeClass: Record<Size, string> = {
+    sm: 'px-2.5 py-1 text-xs',
+    md: 'px-3 py-2 text-sm',
 }
 
-export default function Button({variant = 'primary', size = 'md', loading=false, disabled, children, onClick, style, ...rest}: ButtonProps) {
+const base = 'rounded-lg font-medium transition-colors ' +
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ' +
+    'disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer'
+
+export default function Button({
+                                   variant = 'primary',
+                                   size = 'md',
+                                   loading = false,
+                                   disabled,
+                                   className = '',
+                                   children,
+                                   ...rest
+                               }: ButtonProps) {
     return (
         <button
             disabled={disabled || loading}
-            style={{
-                borderRadius: 8,
-                cursor: disabled || loading ? 'not-allowed' : 'pointer',
-                opacity: disabled || loading ? 0.6 : 1,
-                fontWeight: '500',
-                ...variantStyle[variant],
-                ...sizeStyle[size],
-                ...style
-            }}
+            className={`${base} ${variantClass[variant]} ${sizeClass[size]} ${className}`}
             {...rest}
-            onClick={onClick}
         >
-            {loading ? 'Loading...': children}
+            {loading ? 'Loading...' : children}
         </button>
     )
 }

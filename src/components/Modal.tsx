@@ -48,7 +48,7 @@ export default function Modal({open, onClose, title, children}: ModalProps) {
 
                     <Button
                         onClick={onClose}
-                        style={{fontSize: 24, padding: 0}}
+                        className="text-2xl! p-0!"
                         variant="ghost"
                     >
                         &times;

@@ -1,5 +1,6 @@
 import type {Coin} from "../api/coins.ts";
 import { useOrderStore } from "../store/useOrderStore.ts";
+import { formatPrice } from "../utils/format.ts";
 
 export default function CoinsTable({ coins }: {coins: Coin[]}) {
     const selectCoin = useOrderStore((s) => s.selectCoin)
@@ -20,17 +21,17 @@ export default function CoinsTable({ coins }: {coins: Coin[]}) {
                     <td className="flex items-center gap-x-2.5 ps-4 py-2">
                         <img src={coin.image} alt={coin.name} className="w-6 h-6 sm:w-8 sm:h-8" />
 
-                        <span className="text-text-1 text-sm sm:text-base font-medium">{coin.name}</span>
+                        <span className="text-text-1 text-sm sm:text-base font-medium truncate">{coin.name}</span>
 
-                        <span className="text-text-3 text-xs sm:text-sm">{coin.symbol.toUpperCase()}</span>
+                        <span className="text-text-3 text-xs sm:text-sm truncate">{coin.symbol.toUpperCase()}</span>
                     </td>
 
-                    <td className="py-2 text-text-2 text-sm sm:text-base">
-                        {coin.current_price}
+                    <td className="py-2 text-text-2 text-sm sm:text-base tabular-nums">
+                        {formatPrice(coin.current_price)}
                     </td>
 
                     <td className="text-text-1 text-sm sm:text-base text-end pe-4">
-                        {coin.price_change_percentage_24h ?
+                        {coin.price_change_percentage_24h !== null ?
                         <span
                             className=
                             {
@@ -39,7 +40,7 @@ export default function CoinsTable({ coins }: {coins: Coin[]}) {
                                 : 'text-text-3'
                             }
                         >
-                            {coin.price_change_percentage_24h.toFixed(2)}%
+                            {+coin.price_change_percentage_24h.toFixed(2) > 0 && '+'}{coin.price_change_percentage_24h.toFixed(2)}%
                         </span> : <span className="text-text-3">—</span>
                         }
                     </td>
