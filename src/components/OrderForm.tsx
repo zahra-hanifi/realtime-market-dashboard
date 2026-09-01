@@ -12,7 +12,7 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
         store.selectedCoin && Number.isFinite(amount) && +amount > 0
             ? +amount * +store.selectedCoin.current_price
             : 0
-    const fee = total > 0 ? total * 0.1 : 0
+    const fee = total > 0 ? total * 0.001 : 0
 
     return (
         <div className={className}>
