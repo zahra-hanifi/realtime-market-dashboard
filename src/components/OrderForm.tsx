@@ -7,6 +7,13 @@ const sidebarStyle = 'md:w-1/3 p-4 bg-bg-2 hidden md:block md:overflow-y-auto te
 export default function OrderForm({ className = sidebarStyle }: { className?: string }) {
     const store = useOrderStore()
 
+    const amount = +store.amount
+    const total =
+        store.selectedCoin && Number.isFinite(amount) && +amount > 0
+            ? +amount * +store.selectedCoin.current_price
+            : 0
+    const fee = total > 0 ? total * 0.1 : 0
+
     return (
         <div className={className}>
             {store.selectedCoin ? (
@@ -72,7 +79,18 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
 
                         <div className="flex mt-1">
                             <div className="bg-bg-1 p-3 border border-border border-e-0 rounded-s-lg grow">
-                                <input className="focus:outline-0 w-full" dir="rtl" />
+                                <input
+                                    value={store.amount}
+                                    className="focus:outline-0 w-full"
+                                    dir="rtl"
+                                    inputMode="decimal"
+                                    placeholder="0.00"
+                                    onChange={(e) => {
+                                        const next = e.target.value
+                                        if (next === '' || /^\d*\.?\d*$/.test(next))
+                                            store.setAmount(next)
+                                    }}
+                                />
                             </div>
 
                             <div className="p-3 rounded-e-lg bg-bg-2 flex items-center justify-center border border-border">
@@ -83,7 +101,7 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
                         <div className="flex items-center justify-between text-sm">
                             <span className="text-text-3">Est. total</span>
 
-                            <span className="text-text-2">$19,695</span>
+                            <span className="text-text-2">${formatPrice(total)}</span>
                         </div>
                     </div>
 
@@ -103,7 +121,7 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
                         <div className="flex items-center justify-between">
                             <span className="text-text-3">Fee (0.10%)</span>
 
-                            <span className="text-text-2">$19.70</span>
+                            <span className="text-text-2">${formatPrice(fee)}</span>
                         </div>
                     </div>
                 </div>

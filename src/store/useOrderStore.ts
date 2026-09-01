@@ -19,7 +19,7 @@ export const useOrderStore = create<OrderState>((set) => ({
     selectedCoin: null,
     isOrderOpen: false,
     side: 'buy',
-    amount: ' ',
+    amount: '',
     selectCoin: (selectedCoin) => set({ selectedCoin, isOrderOpen: true }),
     closeOrder: () => set({ isOrderOpen: false }),
     setSide: (side) => set({ side }),
