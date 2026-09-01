@@ -14,9 +14,9 @@ type ButtonProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const variantStyle:Record<Variant, React.CSSProperties> = {
-    primary: { background: '#02c06e', color: '#fff', border: 'none' },
-    ghost: { background: '#757980', color: '#2B2D31', border: '1px solid #2B2D31' },
-    danger: { background: '#F1415E', color: '#fff', border: 'none' },
+    primary: { background: '#6CB084', color: '#061009' },
+    ghost: { background: 'transparent', color: '#A9ADB1' },
+    danger: { background: '#C6706A', color: '#061009' },
 }
 
 const sizeStyle:Record<Size, React.CSSProperties> = {
@@ -32,6 +32,7 @@ export default function Button({variant = 'primary', size = 'md', loading=false,
                 borderRadius: 8,
                 cursor: disabled || loading ? 'not-allowed' : 'pointer',
                 opacity: disabled || loading ? 0.6 : 1,
+                fontWeight: '500',
                 ...variantStyle[variant],
                 ...sizeStyle[size],
                 ...style

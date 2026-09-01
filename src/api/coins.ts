@@ -4,6 +4,7 @@ export interface Coin {
     id: string;
     current_price: number;
     price_change_percentage_24h: number;
+    image: string;
 }
 
 const URL = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=20&page=1'

@@ -82,7 +82,7 @@ Live prices live in a Zustand store, read through selectors so a row only re-ren
 
 ```
 src/
-  components/     CoinList, CoinRow, SearchInput, DetailPanel
+  components/     CoinsList, CoinRow, SearchInput, DetailPanel
   hooks/          useDebounce, usePriceFeed
   store/          price and selection stores
   api/            CoinGecko client

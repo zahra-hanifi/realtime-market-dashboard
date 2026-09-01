@@ -1,23 +1,28 @@
 import { create } from "zustand/react";
+import type {Coin} from "../api/coins.ts";
 
 type Side =  'buy' | 'sell'
 
 interface OrderState {
-    selectedCoinId: string | null;
+    selectedCoin: Coin | null;
+    isOrderOpen: boolean;
     side: Side;
     amount: string;
-    selectCoin: (id:string) => void;
+    selectCoin: (coin: Coin) => void;
+    closeOrder: () => void;
     setSide: (side: Side) => void;
     setAmount: (amount: string) => void;
     reset: () => void;
 }
 
 export const useOrderStore = create<OrderState>((set) => ({
-    selectedCoinId: null,
+    selectedCoin: null,
+    isOrderOpen: false,
     side: 'buy',
     amount: ' ',
-    selectCoin: (selectedCoinId) => set({selectedCoinId}),
+    selectCoin: (selectedCoin) => set({selectedCoin, isOrderOpen: true}),
+    closeOrder: () => set({isOrderOpen: false}),
     setSide: (side) => set({side}),
     setAmount: (amount) => set({amount}),
-    reset: () => set({selectedCoinId: null, side: 'buy', amount: ''}),
+    reset: () => set({selectedCoin: null, isOrderOpen: false, side: 'buy', amount: ''}),
 }))

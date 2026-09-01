@@ -1,17 +1,16 @@
-import {useEffect, useMemo, useState} from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchCoins, type Coin } from "../api/coins.ts";
 import { useDebounce } from "../hooks/useDebounce.ts";
 import Button from "./Button.tsx";
 import SearchInput from "./SearchInput.tsx";
-import {useOrderStore} from "../store/useOrderStore.ts";
+import CoinsTable from "./CoinsTable.tsx";
 
-export default function CoinList() {
+export default function CoinsList() {
     const [coins, setCoins] = useState<Coin[]>([]);
     const [fetchState, setFetchState] = useState<string>('pending');
     const [reloadKey, setReloadKey] = useState<number>(0);
     const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search, 300)
-    const selectCoin = useOrderStore((s) => s.selectCoin)
 
     useEffect( () => {
         const controller = new AbortController()
@@ -34,7 +33,7 @@ export default function CoinList() {
         )
     }, [coins, debouncedSearch])
 
-    return <>
+    return <div className="w-full md:w-2/3 sm:flex sm:flex-col sm:min-h-0">
         {fetchState === 'pending' && <div style={{margin:'auto', fontWeight: 'bold', fontSize: 20}}>Loading...</div>}
         {
             fetchState === 'error' &&
@@ -51,33 +50,24 @@ export default function CoinList() {
         }
         {
             fetchState === 'success' && !coins.length &&
-            <div style={{'margin':'auto', fontWeight: 'bold', fontSize: 20}}>
+            <div className="flex justify-center items-center h-full font-bold text-2xl text-text-2">
                 Nothing found :(
             </div>
         }
         {
             fetchState === 'success' && coins.length &&
-            <div style={{'margin':'auto 0', fontWeight: 'bold', fontSize: 20, minHeight: 681}}>
+            <>
                 <SearchInput search={search} onSearchChange={setSearch} />
 
-                {
-                    filteredCoins.length ? <ul style={{listStyleType: 'none', textAlign: 'start'}}>
-                        {
-                            filteredCoins.map((coin:Coin) => (
-                                <li key={coin.id} style={{padding: '4px 0', cursor: 'pointer'}} onClick={() => selectCoin(coin.id)}>
-                                    {coin.name} ({coin.symbol.toUpperCase()}) - {coin.current_price}
-
-                                    <span
-                                        style={{paddingLeft: 16, color: coin.price_change_percentage_24h > 0 ? 'green' : 'red'}}
-                                    >
-                                    {coin.price_change_percentage_24h}%
-                                </span>
-                                </li>
-                            ))
-                        }
-                    </ul> : <p style={{margin: '16px 0'}}>No Results Found</p>
+                {filteredCoins.length ?
+                    <div className="sm:flex-1 sm:min-h-0 sm:overflow-y-auto">
+                        <CoinsTable coins={filteredCoins} />
+                    </div>
+                    : <div className="flex justify-center items-center h-full font-bold text-2xl text-text-2">
+                        No Result :(
+                    </div>
                 }
-            </div>
+            </>
         }
-    </>
+    </div>
 }

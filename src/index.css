@@ -1,113 +1,56 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@theme {
+    --color-bg-0: oklch(0.155 0.006 250);
+    --color-bg-1: oklch(0.192 0.007 250);
+    --color-bg-2: oklch(0.228 0.008 250);
+    --color-bg-hover: oklch(0.248 0.009 250);
+    --color-border: oklch(0.30 0.010 250);
+    --color-border-strong: oklch(0.38 0.012 250);
+    --color-text-1: oklch(0.945 0.004 250);
+    --color-text-2: oklch(0.745 0.008 250);
+    --color-text-3: oklch(0.585 0.010 250);
+    --color-accent: oklch(0.72 0.085 205);
+    --color-pos: oklch(0.700 0.095 155);
+    --color-neg: oklch(0.640 0.110 25);
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+    --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+@layer base {
+    html {
+        scrollbar-color: var(--color-border-strong) var(--color-bg-0);
+    }
 }
 
-#root {
-  max-width: 100%;
-  text-align: center;
-  min-height: 100svh;
-  display: flex;
-  box-sizing: border-box;
-  padding: 20px;
-  gap: 4rem;
-  @media (max-width: 724px) {
-    flex-direction: column;
-    gap: 2rem;
-  }
-}
+@layer components {
+    .modal,
+    .modal::backdrop {
+        opacity: 0;
+        transition: opacity 0.2s ease, display 0.2s allow-discrete, overlay 0.2s allow-discrete;
+    }
 
-body {
-  margin: 0;
-}
+    .modal[open],
+    .modal[open]::backdrop {
+        opacity: 1;
+    }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
+    @starting-style {
+        .modal[open],
+        .modal[open]::backdrop {
+            opacity: 0;
+        }
+    }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
+    .modal::backdrop {
+        background: oklch(0 0 0 / 0.6);
+    }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+    @media (prefers-reduced-motion: reduce) {
+        .modal,
+        .modal::backdrop {
+            transition: none;
+        }
+    }
 }
