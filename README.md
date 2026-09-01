@@ -69,14 +69,14 @@ The dialog animates with `@starting-style` and `allow-discrete`, so it transitio
 
 ## Tech stack
 
-| | |
-|---|---|
-| Framework | React 19, TypeScript |
-| Build | Vite |
-| Styling | Tailwind CSS v4 (`@theme` tokens) |
-| State | Zustand |
-| Data source | CoinGecko public API |
-| Tooling | ESLint, Prettier |
+|             |                                   |
+| ----------- | --------------------------------- |
+| Framework   | React 19, TypeScript              |
+| Build       | Vite                              |
+| Styling     | Tailwind CSS v4 (`@theme` tokens) |
+| State       | Zustand                           |
+| Data source | CoinGecko public API              |
+| Tooling     | ESLint, Prettier                  |
 
 ---
 
