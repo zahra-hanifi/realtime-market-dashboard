@@ -13,6 +13,10 @@
     --color-accent: oklch(0.72 0.085 205);
     --color-pos: oklch(0.7 0.095 155);
     --color-neg: oklch(0.64 0.11 25);
+    --color-pos-dim: oklch(0.32 0.055 155);
+    --color-pos-edge: oklch(0.45 0.075 155);
+    --color-neg-dim: oklch(0.33 0.06 25);
+    --color-neg-edge: oklch(0.46 0.085 25);
 
     --font-mono: 'IBM Plex Mono', monospace;
 }

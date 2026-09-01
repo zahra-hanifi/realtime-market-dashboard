@@ -106,7 +106,11 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
                     </div>
 
                     <button
-                        className={`${store.side === 'buy' ? 'bg-[#1E402B] border-[#326445]' : 'bg-[#472421] border-[#7A403A]'} mt-4  p-3 rounded-lg border-2  text-text-1 text-sm cursor-pointer uppercase`}
+                        className={`${
+                            store.side === 'buy'
+                                ? 'bg-pos-dim border-pos-edge'
+                                : 'bg-neg-dim border-neg-edge'
+                        } mt-4  p-3 rounded-lg border-2  text-text-1 text-sm cursor-pointer uppercase`}
                     >
                         {store.side} {store.selectedCoin.symbol}
                     </button>
