@@ -12,8 +12,8 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
         ? +store.selectedCoin.price_change_percentage_24h.toFixed(2)
         : 0
 
-    const symbol = store.selectedCoin ? store.selectedCoin.id : ''
-    const livePrice = usePriceStore((s) => s.prices[symbol])
+    const coinId = store.selectedCoin ? store.selectedCoin.id : ''
+    const livePrice = usePriceStore((s) => s.prices[coinId])
 
     const amount = +store.amount
     const total =
