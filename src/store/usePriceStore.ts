@@ -2,7 +2,7 @@ import { create } from 'zustand/react'
 
 interface PriceState {
     prices: Record<number, string>
-    setPrice: (price: Record<number, string>) => void
+    setPrice: (price: Record<string, number>) => void
 }
 
 export const usePriceStore = create<PriceState>((set) => ({
