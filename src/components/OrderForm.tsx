@@ -1,6 +1,7 @@
 import { useOrderStore } from '../store/useOrderStore.ts'
 import Button from './Button.tsx'
 import { formatPrice } from '../utils/format.ts'
+import { usePriceStore } from '../store/usePriceStore.ts'
 
 const sidebarStyle = 'md:w-1/3 p-4 bg-bg-2 hidden md:block md:overflow-y-auto text-text-2'
 
@@ -10,6 +11,10 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
     const change = store.selectedCoin?.price_change_percentage_24h
         ? +store.selectedCoin.price_change_percentage_24h.toFixed(2)
         : 0
+
+    const symbol = store.selectedCoin ? store.selectedCoin.id : ''
+    const livePrice = usePriceStore((s) => s.prices[symbol])
+
     const amount = +store.amount
     const total =
         store.selectedCoin && Number.isFinite(amount) && +amount > 0
@@ -33,7 +38,7 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
 
                     <div className="flex items-center gap-x-4">
                         <span className="text-text-1 font-medium text-2xl sm:text-4xl">
-                            {formatPrice(store.selectedCoin.current_price)}
+                            {formatPrice(livePrice || store.selectedCoin.current_price)}
                         </span>
 
                         {store.selectedCoin.price_change_percentage_24h !== null ? (
