@@ -2,11 +2,12 @@ import type { Coin } from '../api/coins.ts'
 import { useOrderStore } from '../store/useOrderStore.ts'
 import { formatPrice } from '../utils/format.ts'
 
-export default function CoinRow({ coin }: { coin: Coin }) {
+export default function CoinRow({ coin, livePrice }: { coin: Coin; livePrice: number }) {
     const selectCoin = useOrderStore((s) => s.selectCoin)
     const raw = coin.price_change_percentage_24h
     const change = raw != null ? +raw.toFixed(2) : null
 
+    console.log('render row:', coin.symbol)
     return (
         <tr className="cursor-pointer" onClick={() => selectCoin(coin)}>
             <td className="flex items-center gap-x-2.5 ps-4 py-2">
@@ -22,7 +23,7 @@ export default function CoinRow({ coin }: { coin: Coin }) {
             </td>
 
             <td className="py-2 text-text-2 text-sm sm:text-base tabular-nums">
-                {formatPrice(coin.current_price)}
+                {formatPrice(livePrice ?? coin.current_price)}
             </td>
 
             <td className="text-text-1 text-sm sm:text-base text-end pe-4 tabular-nums">
