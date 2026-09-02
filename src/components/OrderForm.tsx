@@ -7,7 +7,7 @@ const sidebarStyle = 'md:w-1/3 p-4 bg-bg-2 hidden md:block md:overflow-y-auto te
 export default function OrderForm({ className = sidebarStyle }: { className?: string }) {
     const store = useOrderStore()
 
-    const change = store.selectedCoin
+    const change = store.selectedCoin?.price_change_percentage_24h
         ? +store.selectedCoin.price_change_percentage_24h.toFixed(2)
         : 0
     const amount = +store.amount
