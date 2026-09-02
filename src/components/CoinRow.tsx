@@ -2,8 +2,9 @@ import type { Coin } from '../api/coins.ts'
 import { useOrderStore } from '../store/useOrderStore.ts'
 import { formatPrice } from '../utils/format.ts'
 import { usePriceStore } from '../store/usePriceStore.ts'
+import { memo } from 'react'
 
-export default function CoinRow({ coin }: { coin: Coin }) {
+function CoinRow({ coin }: { coin: Coin }) {
     const selectCoin = useOrderStore((s) => s.selectCoin)
     const raw = coin.price_change_percentage_24h
     const change = raw != null ? +raw.toFixed(2) : null
@@ -45,3 +46,5 @@ export default function CoinRow({ coin }: { coin: Coin }) {
         </tr>
     )
 }
+
+export default memo(CoinRow)
