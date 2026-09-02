@@ -160,6 +160,10 @@ npm run format
 - **Orders are mock only.** The form calculates a total and fee but doesn't submit anywhere.
 - **The list isn't virtualised.** Fine at 20 rows; a full market listing would need windowing.
 - **No caching layer.** Every mount refetches — there's no stale-while-revalidate behaviour.
+- **The list is capped at 20 coins.** Infinite scroll with cursor-based paging
+    is the obvious next step, and would surface a second performance question:
+    a growing list makes virtualisation matter, and interacting with search
+    needs thought — filtering a partially-loaded list is misleading.
 
 ---
 
