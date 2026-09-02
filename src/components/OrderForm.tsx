@@ -7,6 +7,9 @@ const sidebarStyle = 'md:w-1/3 p-4 bg-bg-2 hidden md:block md:overflow-y-auto te
 export default function OrderForm({ className = sidebarStyle }: { className?: string }) {
     const store = useOrderStore()
 
+    const change = store.selectedCoin
+        ? +store.selectedCoin.price_change_percentage_24h.toFixed(2)
+        : 0
     const amount = +store.amount
     const total =
         store.selectedCoin && Number.isFinite(amount) && +amount > 0
@@ -36,16 +39,14 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
                         {store.selectedCoin.price_change_percentage_24h !== null ? (
                             <span
                                 className={
-                                    +store.selectedCoin.price_change_percentage_24h.toFixed(2) > 0
+                                    change > 0
                                         ? 'text-pos'
-                                        : +store.selectedCoin.price_change_percentage_24h.toFixed(
-                                                2
-                                            ) < 0
+                                        : change < 0
                                           ? 'text-neg'
                                           : 'text-text-3'
                                 }
                             >
-                                {store.selectedCoin.price_change_percentage_24h.toFixed(2)}%
+                                {change}%
                             </span>
                         ) : (
                             <span className="text-text-3">—</span>
