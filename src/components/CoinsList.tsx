@@ -4,6 +4,7 @@ import { useDebounce } from '../hooks/useDebounce.ts'
 import Button from './Button.tsx'
 import SearchInput from './SearchInput.tsx'
 import CoinsTable from './CoinsTable.tsx'
+import { usePriceFeed } from '../hooks/usePriceFeed.ts'
 
 export default function CoinsList() {
     const [coins, setCoins] = useState<Coin[]>([])
@@ -38,21 +39,7 @@ export default function CoinsList() {
         )
     }, [coins, debouncedSearch])
 
-    const [livePrices, setLivePrices] = useState<Record<string, number>>({})
-
-    useEffect(() => {
-        if (coins.length === 0) return
-
-        const id = setInterval(() => {
-            const coin = coins[Math.floor(Math.random() * coins.length)]
-            setLivePrices((prev) => ({
-                ...prev,
-                [coin.id]: coin.current_price * (1 + (Math.random() - 0.5) * 0.02),
-            }))
-        }, 200)
-
-        return () => clearInterval(id)
-    }, [coins])
+    usePriceFeed(coins)
 
     return (
         <div className="w-full md:w-2/3 sm:flex sm:flex-col sm:min-h-0">
@@ -87,7 +74,7 @@ export default function CoinsList() {
 
                     {filteredCoins.length > 0 ? (
                         <div className="sm:flex-1 sm:min-h-0 sm:overflow-y-auto">
-                            <CoinsTable coins={filteredCoins} livePrices={livePrices} />
+                            <CoinsTable coins={filteredCoins} />
                         </div>
                     ) : (
                         <div className="flex justify-center mt-8 h-full font-bold text-2xl text-text-2">

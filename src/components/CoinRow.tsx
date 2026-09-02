@@ -1,11 +1,13 @@
 import type { Coin } from '../api/coins.ts'
 import { useOrderStore } from '../store/useOrderStore.ts'
 import { formatPrice } from '../utils/format.ts'
+import { usePriceStore } from '../store/usePriceStore.ts'
 
-export default function CoinRow({ coin, livePrice }: { coin: Coin; livePrice: number }) {
+export default function CoinRow({ coin }: { coin: Coin }) {
     const selectCoin = useOrderStore((s) => s.selectCoin)
     const raw = coin.price_change_percentage_24h
     const change = raw != null ? +raw.toFixed(2) : null
+    const livePrice = usePriceStore((s) => s.prices[coin.id])
 
     console.log('render row:', coin.symbol)
     return (

@@ -1,13 +1,7 @@
 import type { Coin } from '../api/coins.ts'
 import CoinRow from './CoinRow.tsx'
 
-export default function CoinsTable({
-    coins,
-    livePrices,
-}: {
-    coins: Coin[]
-    livePrices?: string | number | undefined
-}) {
+export default function CoinsTable({ coins }: { coins: Coin[] }) {
     return (
         <table className="w-full mb-4">
             <thead className="sticky top-30.25 sm:top-2 bg-bg-0 z-40">
@@ -20,7 +14,7 @@ export default function CoinsTable({
 
             <tbody>
                 {coins.map((coin: Coin) => (
-                    <CoinRow key={coin.id} coin={coin} livePrice={livePrices[coin.id]} />
+                    <CoinRow key={coin.id} coin={coin} />
                 ))}
             </tbody>
         </table>
