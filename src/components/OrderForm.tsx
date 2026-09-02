@@ -38,7 +38,7 @@ export default function OrderForm({ className = sidebarStyle }: { className?: st
 
                     <div className="flex items-center gap-x-4">
                         <span className="text-text-1 font-medium text-2xl sm:text-4xl">
-                            {formatPrice(livePrice || store.selectedCoin.current_price)}
+                            {formatPrice(livePrice ?? store.selectedCoin.current_price)}
                         </span>
 
                         {store.selectedCoin.price_change_percentage_24h !== null ? (
