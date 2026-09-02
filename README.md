@@ -4,7 +4,7 @@ A cryptocurrency market terminal built with React and TypeScript. Browse live ma
 
 **[Live demo →](https://realtime-market-dashboard-eta.vercel.app/)**
 
-![Coins list](./screenshots/image.png)
+![Market terminal](./screenshots/image.png)
 
 ---
 
@@ -29,7 +29,7 @@ Profiling a live session showed why:
 | Render time per commit | **31.9ms** |
 | Cause reported by React | `CoinsList` |
 
-Only **one** coin's price changes on each tick, so 19 of those 20 renders did nothing. The number that matters is the render time: a 60fps frame budget is 16.7ms, and each price tick was taking roughly **twice that**. That's the lag you could feel when typing in the search box while prices ticked.
+Only **one** coin's price changes per tick, so 19 of those 20 renders did nothing. The number that matters is the render time: a 60fps frame budget is 16.7ms, and each price tick was taking roughly **twice that**. That's the lag you could feel when typing in the search box while prices ticked.
 
 [See the naive implementation →](https://github.com/zahra-hanifi/realtime-market-dashboard/commit/e14b845)
 
@@ -47,16 +47,26 @@ const livePrice = usePriceStore((s) => s.prices[coin.id])
 | | Before | After |
 |---|---|---|
 | Rows re-rendered per commit | 20 | **1** |
-| Render time per commit | 31.9ms | **1.5ms** |
+| Render time per commit | 31.9ms | **0.7ms** |
 | Cause reported by React | `CoinsList` | the row itself |
 
-From twice the frame budget to about a tenth of it.
+From roughly twice the frame budget to a small fraction of it.
 
 [See the fix →](https://github.com/zahra-hanifi/realtime-market-dashboard/commit/1334a2e)
 
+### The order panel gets the same treatment
+
+The panel displays the selected coin's price, so it needs live updates too — but only for *that* coin. It subscribes by key like the rows do:
+
+```ts
+const livePrice = usePriceStore((s) => s.prices[coinId])
+```
+
+Confirmed in the profiler: a `binancecoin` tick with Bitcoin selected leaves the panel untouched. It re-renders only when the coin it's actually displaying moves.
+
 ### What didn't help: `React.memo`
 
-I also wrapped `CoinRow` in `memo`, expecting a further gain. Measured before and after: **31.9ms → 1.5ms → 1.5ms.** No effect.
+I also wrapped `CoinRow` in `memo`, expecting a further gain. Measured before and after: **no change.**
 
 The reason is worth stating plainly. `memo` prevents a component re-rendering because its *parent* re-rendered. Once prices moved into the store, the parent stopped re-rendering on ticks — so there was nothing left for `memo` to prevent.
 
@@ -92,7 +102,7 @@ The point is a single source of truth: changing the palette means editing one bl
 
 Prices span five orders of magnitude — a coin at \$76,000 and one at \$0.016 sit in the same column — so `formatPrice` picks precision by magnitude rather than using one fixed setting. Numeric columns use tabular figures so digits don't shift width as prices tick.
 
-A missing 24h change renders an em dash rather than a bare `%`, and the null check is explicit: a change of exactly `0.00%` is real data, and a truthiness check would have thrown it away.
+Null handling is explicit rather than truthy: a 24h change of exactly `0.00%` is real data, and `??` is used over `||` when falling back to a price, since `0` is a legitimate value. A genuinely missing change renders an em dash rather than a bare `%`.
 
 ### Responsive behaviour
 
@@ -145,7 +155,7 @@ npm run format
 ## What I'd do differently
 
 - **The price feed is simulated.** `setInterval` stands in for a WebSocket. The rendering problem it creates is the same, but reconnection, message ordering, and gap recovery are all missing.
-- **Updates aren't batched.** At a 200ms tick, render cost is already ~1.5ms, so buffering updates into windows wouldn't measurably help here. A real feed at 20ms would need it.
+- **Updates aren't batched.** At a 200ms tick, render cost is already under a millisecond, so buffering updates into windows wouldn't measurably help here. A real feed at 20ms would need it.
 - **No tests.** `formatPrice` and the order total calculation are pure functions with real edge cases, and are exactly what unit tests are for.
 - **Orders are mock only.** The form calculates a total and fee but doesn't submit anywhere.
 - **The list isn't virtualised.** Fine at 20 rows; a full market listing would need windowing.
