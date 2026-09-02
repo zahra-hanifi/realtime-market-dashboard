@@ -10,7 +10,6 @@ function CoinRow({ coin }: { coin: Coin }) {
     const change = raw != null ? +raw.toFixed(2) : null
     const livePrice = usePriceStore((s) => s.prices[coin.id])
 
-    console.log('render row:', coin.symbol)
     return (
         <tr className="cursor-pointer" onClick={() => selectCoin(coin)}>
             <td className="flex items-center gap-x-2.5 ps-4 py-2">
